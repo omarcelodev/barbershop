@@ -2,6 +2,8 @@ package com.marcelo.barbershop.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +12,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +26,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Barbeiro {
 
     @Id
@@ -36,18 +36,18 @@ public class Barbeiro {
     @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
     private Usuario usuario;
 
-    @Column(nullable = false, length = 100)
-    private String especialidade;
+    @Enumerated(EnumType.STRING)
+    private Especialidade especialidade;
 
     @Column(nullable = false)
     private Boolean ativo = true;
 
 // Métodos da entidade
     public void ativar() {
-    this.ativo = true;
+        this.ativo = true;
     }
 
     public void desativar() {
-    this.ativo = false;
+        this.ativo = false;
     }
 }
