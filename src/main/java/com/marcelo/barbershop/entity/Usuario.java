@@ -1,10 +1,7 @@
 package com.marcelo.barbershop.entity;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
+import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +14,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,41 +40,41 @@ public class Usuario {
     private String email;
 
     @NotBlank(message = "Telefone é obrigatório")
+    @Pattern(regexp = "\\d{10,11}", message = "Telefone deve conter apenas números e ter entre 10 e 11 dígitos")  
     @Column(nullable = false)
     private String telefone;
 
     @JsonIgnore
-    @NotBlank
     @Column(nullable = false)
     private String senhaHash;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    private Role role = Role.CLIENTE;
 
     @Column(nullable = false)
     private Boolean ativo = true;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime criadoEm;
+    private Instant criadoEm;
 
     @Column(nullable = false)
-    private LocalDateTime atualizadoEm;
+    private Instant atualizadoEm;
 
 
 // Métodos da entidade
     @PrePersist
     public void prePersist() {
         if (this.criadoEm == null) {
-            this.criadoEm = LocalDateTime.now(ZoneOffset.UTC);
+            this.criadoEm = Instant.now();
         }
         
-        this.atualizadoEm = LocalDateTime.now(ZoneOffset.UTC);
+        this.atualizadoEm = Instant.now();
     }
 
     @PreUpdate
     public void preUpdate() {
-        this.atualizadoEm = LocalDateTime.now(ZoneOffset.UTC);
+        this.atualizadoEm = Instant.now();
     }
 
     public void desativar() {
