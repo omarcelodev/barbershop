@@ -1,5 +1,7 @@
 package com.marcelo.barbershop.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -37,10 +41,19 @@ public class Barbeiro {
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Especialidade especialidade;
 
     @Column(nullable = false)
     private Boolean ativo = true;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "barbeiro_servico",
+        joinColumns = @JoinColumn(name = "barbeiro_id"),
+        inverseJoinColumns = @JoinColumn(name = "servico_id")
+    )
+    private Set<Servico> servicos = new HashSet<>();
 
 // Métodos da entidade
     public void ativar() {
