@@ -4,5 +4,4 @@ public enum Especialidade {
     CORTE,
     BARBA,
     SOMBRACELHA,
-    PIGMENTAÇÃO
 }
