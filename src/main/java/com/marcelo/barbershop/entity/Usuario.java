@@ -4,8 +4,6 @@ import java.time.Instant;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,10 +46,6 @@ public class Usuario {
     @Column(nullable = false)
     private String senhaHash;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role = Role.CLIENTE;
-
     @Column(nullable = false)
     private Boolean ativo = true;
 
@@ -83,17 +77,5 @@ public class Usuario {
 
     public void ativar() {
         this.ativo = true;
-    }
-
-    public boolean isAdmin() {
-        return this.role == Role.ADMIN;
-    }
-
-    public boolean isCliente() {
-        return this.role == Role.CLIENTE;
-    }
-
-    public boolean isBarbeiro() {
-        return this.role == Role.BARBEIRO;
     }
 }
