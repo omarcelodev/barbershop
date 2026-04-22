@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -53,17 +54,30 @@ public class Notificacao {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatusNotificacao status;
+    private StatusNotificacao status = StatusNotificacao.PENDENTE;
+
+    @PrePersist
+    public void prePersist() {
+        this.criadoEm = LocalDateTime.now();
+        if (this.status == null) { 
+            this.status = StatusNotificacao.PENDENTE;
+        }
+    }
 
     public boolean foiEnviada() {
-        return this.enviadoEm != null;
+        return this.status == StatusNotificacao.ENVIADO;
     }
 
     public void marcarComoEnviada() {
         this.status = StatusNotificacao.ENVIADO;
+        this.enviadoEm = LocalDateTime.now();
     }
 
     public void marcarComoFalha(){
         this.status = StatusNotificacao.FALHOU;
+    }
+
+    public boolean falhou() {
+        return this.status == StatusNotificacao.FALHOU;
     }
 }
