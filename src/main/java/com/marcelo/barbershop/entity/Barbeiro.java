@@ -86,4 +86,28 @@ public class Barbeiro {
     public void desativar() {
         this.ativo = false;
     }
+
+    public boolean isAtivo() {
+        return Boolean.TRUE.equals(ativo);
+    }
+
+    public boolean temServicos() {
+        return this.servicos != null && !this.servicos.isEmpty();
+    }
+
+    public boolean atendeServico(Servico servico) {
+        return this.servicos.contains(servico);
+    }
+
+    public void addServico(Servico servico) {
+        this.servicos.add(servico);
+    }
+
+    public void removeServico(Servico servico) {
+        this.servicos.remove(servico);
+    }
+
+    public boolean podeReceberAgendamento() {
+        return isAtivo() && temServicos();
+    }
 }
