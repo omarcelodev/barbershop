@@ -95,6 +95,9 @@ public class Barbeiro {
         return this.servicos != null && !this.servicos.isEmpty();
     }
 
+    /**
+     * Verifica se o barbeiro realiza um determinado serviço.
+     */
     public boolean atendeServico(Servico servico) {
         return this.servicos.contains(servico);
     }
@@ -107,6 +110,9 @@ public class Barbeiro {
         this.servicos.remove(servico);
     }
 
+    /**
+     * Verifica se o barbeiro pode receber agendamentos.
+     */
     public boolean podeReceberAgendamento() {
         return isAtivo() && temServicos();
     }
