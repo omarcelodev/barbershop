@@ -1,7 +1,6 @@
 package com.marcelo.barbershop.entity;
 
 import java.time.LocalTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,7 +18,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Table(name = "agenda")
@@ -54,5 +52,13 @@ public class Agenda {
         if (horaInicio != null && horaFim != null && !horaInicio.isBefore(horaFim)) {
             throw new IllegalStateException("Hora de início deve ser anterior à hora de fim");
         }
+    }
+
+    public boolean contemHorario(LocalTime horario) {
+        return (horario.equals(horaInicio) || horario.isAfter(horaInicio)) && horario.isBefore(horaFim);
+    }
+
+    public long getDuracaoEmMinutos() {
+        return java.time.Duration.between(horaInicio, horaFim).toMinutes();
     }
 }
