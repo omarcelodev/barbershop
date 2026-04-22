@@ -27,6 +27,7 @@ import lombok.Setter;
 public class Notificacao {  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -43,7 +44,7 @@ public class Notificacao {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensagem;
-    
+
     @Column(nullable = false)
     private LocalDateTime enviadoEm;   
 }
