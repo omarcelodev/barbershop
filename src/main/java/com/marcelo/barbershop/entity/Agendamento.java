@@ -1,5 +1,6 @@
 package com.marcelo.barbershop.entity;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -27,7 +30,7 @@ import lombok.Setter;
     } 
 )
 @Getter
-@Setter
+@Setter 
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Agendamento {
@@ -56,5 +59,36 @@ public class Agendamento {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.Agendado; 
+    private Status status = Status.Agendado;
+    
+    @Column(nullable = false, updatable = false)
+    private Instant criadoEm;
+
+    public boolean isAtivo() {
+        return this.status == Status.Agendado || this.status == Status.Confirmado;
+    }
+
+    public void cancelar() {
+        this.status = Status.Cancelado;
+    }
+
+    public boolean isConcluido() {
+        return this.status == Status.Concluido;
+    }
+
+    public long getDuracaoEmMinutos() {
+        return java.time.Duration.between(dataHoraInicio, dataHoraFim).toMinutes();
+    }
+
+    public boolean conflitoCom(Agendamento outro) { 
+        return this.dataHoraInicio.isBefore(outro.dataHoraFim) && outro.dataHoraInicio.isBefore(this.dataHoraFim);
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void validarHorario() {
+        if (!dataHoraInicio.isBefore(dataHoraFim)) {
+            throw new IllegalStateException("Início deve ser antes do fim");
+        }
+    }
 }
