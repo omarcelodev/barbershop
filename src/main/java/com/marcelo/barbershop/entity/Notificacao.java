@@ -45,6 +45,25 @@ public class Notificacao {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String mensagem;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime enviadoEm;   
+
+    @Column
+    private LocalDateTime criadoEm;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusNotificacao status;
+
+    public boolean foiEnviada() {
+        return this.enviadoEm != null;
+    }
+
+    public void marcarComoEnviada() {
+        this.status = StatusNotificacao.ENVIADO;
+    }
+
+    public void marcarComoFalha(){
+        this.status = StatusNotificacao.FALHOU;
+    }
 }
