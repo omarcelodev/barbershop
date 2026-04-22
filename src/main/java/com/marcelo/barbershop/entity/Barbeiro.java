@@ -56,7 +56,7 @@ public class Barbeiro {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Especialidade especialidade;
+    private Especialidade especialidade = Especialidade.CORTE;
 
     @Column(nullable = false)
     private Boolean ativo = true;
