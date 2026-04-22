@@ -53,10 +53,21 @@ public class Servico {
     @Column(nullable = false)
     private Integer duracao;
 
+    // =========================
+    // Regras simples de domínio
+    // =========================
+
+    /**
+     * Verifica se o serviço é considerado rápido.
+     * (Regra arbitrária: até 30 minutos)
+     */
     public boolean isRapido() {
         return this.duracao <= 30;
     }
 
+     /**
+     * Verifica se o serviço possui preço válido.
+     */
     public boolean temPrecoValido() {
         return this.preco != null && this.preco.compareTo(BigDecimal.ZERO) > 0;
     }
