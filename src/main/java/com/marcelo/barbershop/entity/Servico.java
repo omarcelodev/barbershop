@@ -40,7 +40,7 @@ public class Servico {
 
     
     @NotBlank(message = "Nome do serviço é obrigatório")
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     @NotNull
@@ -52,4 +52,12 @@ public class Servico {
     @Min(value = 1, message = "Duração do serviço é obrigatória")
     @Column(nullable = false)
     private Integer duracao;
+
+    public boolean isRapido() {
+        return this.duracao <= 30;
+    }
+
+    public boolean temPrecoValido() {
+        return this.preco != null && this.preco.compareTo(BigDecimal.ZERO) > 0;
+    }
 }
