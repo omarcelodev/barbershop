@@ -20,6 +20,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa um usuário do sistema de barbearia.
+ * 
+ * Um usuário pode assumir diferentes papéis (cliente, barbeiro ou administrador),
+ * definidos pelo atributo {@code role}.
+ * 
+ * Essa entidade contém informações de identificação, autenticação e controle de status.
+ */
 @Entity
 @Table (name = "usuarios")
 @Getter
@@ -37,16 +45,28 @@ public class Usuario {
     @Column(nullable = false)
     private String nome;
 
+    /**
+     * Email único do usuário.
+     * Utilizado como identificador para login no sistema.
+     */
     @Email
     @NotBlank(message = "Email é obrigatório")
     @Column (unique = true, nullable = false)
     private String email;
 
+    /**
+     * Telefone do usuário contendo apenas números.
+     * Deve possuir entre 10 e 11 dígitos (com DDD).
+     */
     @NotBlank(message = "Telefone é obrigatório")
     @Pattern(regexp = "\\d{10,11}", message = "Telefone deve conter apenas números e ter entre 10 e 11 dígitos")  
     @Column(nullable = false)
     private String telefone;
 
+    /**
+     * Hash da senha do usuário.
+     * Nunca deve ser exposto em respostas da API.
+     */
     @JsonIgnore
     @Column(nullable = false)
     private String senhaHash;
@@ -61,11 +81,22 @@ public class Usuario {
     @Column(nullable = false, updatable = false)
     private Instant criadoEm;
 
+    /**
+     * Data da última atualização do registro.
+     * Atualizada automaticamente a cada modificação.
+     */
     @Column(nullable = false)
     private Instant atualizadoEm;
 
 
-// Métodos da entidade
+    // =========================
+    // Métodos de ciclo de vida
+    // =========================
+
+    /**
+     * Define automaticamente as datas de criação e atualização
+     * antes de persistir a entidade no banco.
+     */
     @PrePersist
     public void prePersist() {
         if (this.criadoEm == null) {
@@ -75,6 +106,10 @@ public class Usuario {
         this.atualizadoEm = Instant.now();
     }
 
+    /**
+     * Atualiza automaticamente a data de modificação
+     * antes de atualizar a entidade no banco.
+     */
     @PreUpdate
     public void preUpdate() {
         this.atualizadoEm = Instant.now();
