@@ -21,6 +21,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa um agendamento realizado por um cliente com um barbeiro.
+ * 
+ * Um agendamento vincula um usuário, um barbeiro e um serviço
+ * em um intervalo específico de data e hora.
+ * 
+ * É responsável por representar a ocupação da agenda.
+ */
 @Entity
 @Table(name = "agendamentos",
     indexes = {
@@ -64,6 +72,13 @@ public class Agendamento {
     @Column(nullable = false, updatable = false)
     private Instant criadoEm;
 
+    // =========================
+    // Regras de domínio simples
+    // =========================
+
+    /**
+     * Verifica se o agendamento está ativo (não cancelado).
+     */
     public boolean isAtivo() {
         return this.status == Status.Agendado || this.status == Status.Confirmado;
     }
@@ -80,6 +95,9 @@ public class Agendamento {
         return java.time.Duration.between(dataHoraInicio, dataHoraFim).toMinutes();
     }
 
+    /**
+     * Verifica se este agendamento conflita com outro.
+     */
     public boolean conflitoCom(Agendamento outro) { 
         return this.dataHoraInicio.isBefore(outro.dataHoraFim) && outro.dataHoraInicio.isBefore(this.dataHoraFim);
     }
