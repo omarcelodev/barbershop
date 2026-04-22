@@ -21,6 +21,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa um barbeiro no sistema.
+ * 
+ * Um barbeiro está vinculado a um usuário e possui especialidades e serviços
+ * que pode executar. Também possui controle de disponibilidade para atendimento.
+ */
+
 @Entity
 @Table(
     name = "barbeiros",
@@ -39,6 +46,10 @@ public class Barbeiro {
     @EqualsAndHashCode.Include
     private Long id;
     
+    /**
+     * Usuário associado ao barbeiro.
+     * Contém dados como nome, email e autenticação.
+     */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
     private Usuario usuario;
@@ -50,6 +61,9 @@ public class Barbeiro {
     @Column(nullable = false)
     private Boolean ativo = true;
 
+    /**
+     * Serviços que o barbeiro está apto a realizar.
+     */
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "barbeiro_servico",
@@ -58,7 +72,13 @@ public class Barbeiro {
     )
     private Set<Servico> servicos = new HashSet<>();
 
-// Métodos da entidade
+    // =========================
+    // Regras de negócio
+    // =========================
+
+    /**
+     * Ativa e Desativa o barbeiro para atendimento.
+     */
     public void ativar() {
         this.ativo = true;
     }
