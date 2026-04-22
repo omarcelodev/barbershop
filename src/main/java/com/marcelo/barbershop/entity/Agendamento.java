@@ -55,7 +55,7 @@ public class Agendamento {
     private LocalDateTime dataHoraInicio;
 
     @Column(nullable = false)
-    private LocalDateTime dataHoraFim;
+    private LocalDateTime dataHoraFim = dataHoraInicio.plusMinutes(servico.getDuracao());
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
