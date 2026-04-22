@@ -19,6 +19,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa uma notificação enviada ao usuário relacionada a um agendamento.
+ *
+ * Essa entidade registra tentativas de comunicação com o usuário por diferentes
+ * canais (ex: email, SMS, WhatsApp), incluindo o conteúdo da mensagem,
+ * status de envio e timestamps de criação e envio.
+ *
+ * É utilizada para controle de envio, reprocessamento (retry) e auditoria.
+ */
+
 @Entity
 @Table(name = "notificacao")
 @Getter
@@ -56,6 +66,10 @@ public class Notificacao {
     @Column(nullable = false)
     private StatusNotificacao status = StatusNotificacao.PENDENTE;
 
+    /**
+     * Define automaticamente a data de criação antes de persistir a entidade.
+     * Garante também que o status inicial seja PENDENTE.
+     */
     @PrePersist
     public void prePersist() {
         this.criadoEm = LocalDateTime.now();
@@ -64,10 +78,14 @@ public class Notificacao {
         }
     }
 
+    /**
+     * Verifica se a notificação já foi enviada com sucesso.
+     */
     public boolean foiEnviada() {
         return this.status == StatusNotificacao.ENVIADO;
     }
 
+    
     public void marcarComoEnviada() {
         this.status = StatusNotificacao.ENVIADO;
         this.enviadoEm = LocalDateTime.now();
