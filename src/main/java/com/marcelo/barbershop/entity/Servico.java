@@ -17,6 +17,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter; 
 
+/**
+ * Representa um serviço oferecido pela barbearia.
+ * 
+ * Um serviço define o que será realizado (ex: corte, barba),
+ * incluindo seu preço e duração estimada.
+ * 
+ * Essas informações são utilizadas no agendamento para cálculo
+ * de tempo e valor total.
+ */
 @Entity
 @Table(name = "servicos")
 @Getter
@@ -29,6 +38,7 @@ public class Servico {
     @EqualsAndHashCode.Include
     private Long id;
 
+    
     @NotBlank(message = "Nome do serviço é obrigatório")
     @Column(nullable = false)
     private String nome;
