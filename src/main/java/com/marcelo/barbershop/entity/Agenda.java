@@ -19,6 +19,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Representa um período de disponibilidade de um barbeiro em um dia da semana.
+ * 
+ * Cada registro define um intervalo fixo de horário (ex: 08:00 às 18:00)
+ * em um dia específico, servindo como base para geração de horários disponíveis
+ * para agendamento.
+ */
+
 @Entity
 @Table(name = "agenda")
 @Getter
@@ -32,6 +40,9 @@ public class Agenda {
     @EqualsAndHashCode.Include
     private Long id;
 
+    /**
+     * Barbeiro associado a esta agenda.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barbeiro_id", nullable = false, updatable = false)
     private Barbeiro barbeiro;
@@ -46,6 +57,13 @@ public class Agenda {
     @Column(nullable = false)
     private LocalTime horaFim;
     
+    // =========================
+    // Validações de domínio
+    // =========================
+
+    /**
+     * Garante que o horário de início seja anterior ao horário de fim.
+     */
     @PrePersist
     @PreUpdate
     private void validarHorario() {
@@ -54,10 +72,20 @@ public class Agenda {
         }
     }
 
+    // =========================
+    // Regras de domínio simples
+    // =========================
+
+    /**
+     * Verifica se um horário está dentro do intervalo da agenda.
+     */
     public boolean contemHorario(LocalTime horario) {
         return (horario.equals(horaInicio) || horario.isAfter(horaInicio)) && horario.isBefore(horaFim);
     }
 
+    /**
+     * Calcula a duração total da jornada em minutos.
+     */
     public long getDuracaoEmMinutos() {
         return java.time.Duration.between(horaInicio, horaFim).toMinutes();
     }
