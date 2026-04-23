@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -67,13 +68,16 @@ public class Agendamento {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.Agendado;
+    private Status status = Status.AGENDADO;
     
     @Column(nullable = false, updatable = false)
     private Instant criadoEm;
 
     @Column(nullable = false)
     private Instant atualizadoEm;
+    
+    @Version
+    private Long version;
 
     // =========================
     // Ciclo de vida JPA
@@ -113,15 +117,15 @@ public class Agendamento {
      * Verifica se o agendamento está ativo (não cancelado).
      */
     public boolean isAtivo() {
-        return this.status == Status.Agendado || this.status == Status.Confirmado;
+        return this.status == Status.AGENDADO || this.status == Status.CONFIRMADO;
     }
 
     public void cancelar() {
-        this.status = Status.Cancelado;
+        this.status = Status.CANCELADO;
     }
 
     public boolean isConcluido() {
-        return this.status == Status.Concluido;
+        return this.status == Status.CONCLUIDO;
     }
 
     public long getDuracaoEmMinutos() {

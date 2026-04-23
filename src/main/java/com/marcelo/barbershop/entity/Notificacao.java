@@ -49,10 +49,6 @@ public class Notificacao {
     @JoinColumn(name = "agendamento_id", nullable = false)
     private Agendamento agendamento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Canal canal;

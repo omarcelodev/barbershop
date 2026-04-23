@@ -1,7 +1,10 @@
 package com.marcelo.barbershop.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +17,7 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
@@ -52,7 +56,6 @@ public class Barbeiro {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
-    @Column(unique = true, nullable = false)
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)
@@ -72,6 +75,9 @@ public class Barbeiro {
         inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
     private Set<Servico> servicos = new HashSet<>();
+
+    @OneToMany(mappedBy = "barbeiro", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Agenda> agendas = new ArrayList<>();
 
     // =========================
     // Regras de negócio
@@ -105,6 +111,16 @@ public class Barbeiro {
 
     public void removeServico(Servico servico) {
         this.servicos.remove(servico);
+    }
+
+    public void addAgenda(Agenda agenda) {
+    agendas.add(agenda);
+    agenda.setBarbeiro(this);
+}
+
+    public void removeAgenda(Agenda agenda) {
+        agendas.remove(agenda);
+        agenda.setBarbeiro(null);
     }
 
     /**
