@@ -63,7 +63,7 @@ public class Agendamento {
     private LocalDateTime dataHoraInicio;
 
     @Column(nullable = false)
-    private LocalDateTime dataHoraFim = dataHoraInicio.plusMinutes(servico.getDuracao());
+    private LocalDateTime dataHoraFim;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -73,8 +73,32 @@ public class Agendamento {
     private Instant criadoEm;
 
     // =========================
+    // Ciclo de vida JPA
+    // =========================
+
+    @PrePersist
+    public void prePersist() {
+        this.criadoEm = Instant.now();
+        validarHorario();
+    }
+
+    @PreUpdate
+    public void validarHorario() {
+        if (dataHoraInicio != null && dataHoraFim != null && !dataHoraInicio.isBefore(dataHoraFim)) {
+            throw new IllegalStateException("Início deve ser antes do fim");
+        }
+    }
+
+    // =========================
     // Regras de domínio simples
     // =========================
+
+    public void definirHorario(LocalDateTime inicio, Servico servico) {
+        if (servico == null) throw new IllegalArgumentException("Serviço é obrigatório");
+        this.servico = servico;
+        this.dataHoraInicio = inicio;
+        this.dataHoraFim = inicio.plusMinutes(servico.getDuracao());
+    }
 
     /**
      * Verifica se o agendamento está ativo (não cancelado).
@@ -100,13 +124,5 @@ public class Agendamento {
      */
     public boolean conflitoCom(Agendamento outro) { 
         return this.dataHoraInicio.isBefore(outro.dataHoraFim) && outro.dataHoraInicio.isBefore(this.dataHoraFim);
-    }
-
-    @PrePersist
-    @PreUpdate
-    private void validarHorario() {
-        if (!dataHoraInicio.isBefore(dataHoraFim)) {
-            throw new IllegalStateException("Início deve ser antes do fim");
-        }
     }
 }
