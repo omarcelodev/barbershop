@@ -87,7 +87,7 @@ public class Agendamento {
     }
 
     @PreUpdate
-    private void preUpdate() {
+    protected void preUpdate() {
         this.atualizadoEm = Instant.now();
         validarHorario();
     }

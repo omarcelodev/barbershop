@@ -122,7 +122,7 @@ public class Usuario {
 
     private void normalizarTelefone() {
         if (this.telefone != null) {
-            this.telefone = this.telefone.replace("\\D", "");
+            this.telefone = this.telefone.replaceAll("\\D", "");
         }
     }
 

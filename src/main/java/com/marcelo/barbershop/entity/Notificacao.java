@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
@@ -30,7 +31,10 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "notificacao")
+@Table(name = "notificacao", indexes = {
+    @Index(name = "idx_notificacao_agendamento", columnList = "agendamento_id"),
+    @Index(name = "idx_notificacao_usuario", columnList = "usuario_id")
+})
 @Getter
 @Setter
 @NoArgsConstructor

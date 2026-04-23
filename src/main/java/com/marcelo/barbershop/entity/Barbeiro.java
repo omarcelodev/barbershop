@@ -52,6 +52,7 @@ public class Barbeiro {
      */
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false, updatable = false)
+    @Column(unique = true, nullable = false)
     private Usuario usuario;
 
     @Enumerated(EnumType.STRING)
