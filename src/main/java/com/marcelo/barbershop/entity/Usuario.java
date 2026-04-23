@@ -96,9 +96,12 @@ public class Usuario {
     /**
      * Define automaticamente as datas de criação e atualização
      * antes de persistir a entidade no banco.
+     * * Também normaliza o telefone removendo caracteres não numéricos
+     * (ex: "(62) 9 8888-7777" vira "62988887777").
      */
     @PrePersist
     public void prePersist() {
+        normalizarTelefone();
         if (this.criadoEm == null) {
             this.criadoEm = Instant.now();
         }
@@ -109,10 +112,18 @@ public class Usuario {
     /**
      * Atualiza automaticamente a data de modificação
      * antes de atualizar a entidade no banco.
+     * Também re-normaliza o telefone caso tenha sido alterado.
      */
     @PreUpdate
     public void preUpdate() {
+        normalizarTelefone();
         this.atualizadoEm = Instant.now();
+    }
+
+    private void normalizarTelefone() {
+        if (this.telefone != null) {
+            this.telefone = this.telefone.replace("\\D", "");
+        }
     }
 
     public void desativar() {

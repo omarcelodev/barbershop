@@ -72,6 +72,9 @@ public class Agendamento {
     @Column(nullable = false, updatable = false)
     private Instant criadoEm;
 
+    @Column(nullable = false)
+    private Instant atualizadoEm;
+
     // =========================
     // Ciclo de vida JPA
     // =========================
@@ -79,11 +82,17 @@ public class Agendamento {
     @PrePersist
     public void prePersist() {
         this.criadoEm = Instant.now();
+        this.atualizadoEm = Instant.now();
         validarHorario();
     }
 
     @PreUpdate
-    public void validarHorario() {
+    private void preUpdate() {
+        this.atualizadoEm = Instant.now();
+        validarHorario();
+    }
+
+    private void validarHorario() {
         if (dataHoraInicio != null && dataHoraFim != null && !dataHoraInicio.isBefore(dataHoraFim)) {
             throw new IllegalStateException("Início deve ser antes do fim");
         }

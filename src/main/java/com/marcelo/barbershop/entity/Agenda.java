@@ -66,7 +66,7 @@ public class Agenda {
      */
     @PrePersist
     @PreUpdate
-    private void validarHorario() {
+    protected void validarHorario() {
         if (horaInicio != null && horaFim != null && !horaInicio.isBefore(horaFim)) {
             throw new IllegalStateException("Hora de início deve ser anterior à hora de fim");
         }

@@ -87,10 +87,6 @@ public class Barbeiro {
         this.ativo = false;
     }
 
-    public boolean isAtivo() {
-        return Boolean.TRUE.equals(ativo);
-    }
-
     public boolean temServicos() {
         return this.servicos != null && !this.servicos.isEmpty();
     }
@@ -114,6 +110,6 @@ public class Barbeiro {
      * Verifica se o barbeiro pode receber agendamentos.
      */
     public boolean podeReceberAgendamento() {
-        return isAtivo() && temServicos();
+        return Boolean.TRUE.equals(getAtivo()) && temServicos();
     }
 }
