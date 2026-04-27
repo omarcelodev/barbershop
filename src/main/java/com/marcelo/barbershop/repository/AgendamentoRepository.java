@@ -27,7 +27,7 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
     @Query("""
         SELECT a FROM Agendamento a
         WHERE a.barbeiro.id = :barbeiroId
-          AND a.dataHoraInicio >= inicioDia
+          AND a.dataHoraInicio >= :inicioDia
           AND a.dataHoraInicio < :fimDia
         ORDER BY a.dataHoraInicio
     """)

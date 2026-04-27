@@ -11,5 +11,5 @@ public interface AgendaRepository extends JpaRepository <Agenda, Long> {
 
     List<Agenda> findAllByBarbeiroIdAndDiaSemana(Long barbeiroId, DiaSemana diaSemana);
 
-    boolean existsByBarbeiroIDAndDiaSemana(Long barbeiroId, DiaSemana diaSemana);
+    boolean existsByBarbeiroIdAndDiaSemana(Long barbeiroId, DiaSemana diaSemana);
 }
