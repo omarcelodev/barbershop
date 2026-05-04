@@ -50,5 +50,4 @@ public interface UsuarioRepository extends JpaRepository <Usuario, Long> {
      * Retorna uma lista de usuários associados ao role informado.
      */
     List<Usuario> findAllByRole(Role role);
-    
 }
