@@ -41,7 +41,7 @@ public interface UsuarioRepository extends JpaRepository <Usuario, Long> {
      * Parametro ativo Indica se o usuário está ativo (true) ou inativo (false).
      * Retorna uma lista de usuários que correspondem ao status informado.
      */
-    List<Usuario> findAllByAtivo(Boolean ativo);
+    List<Usuario> findAllByAtivo(boolean ativo);
 
     /**
      * Retorna todos os usuários que possuem um determinado papel (role).
