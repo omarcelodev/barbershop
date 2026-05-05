@@ -2,11 +2,8 @@ package com.marcelo.barbershop.service;
 
 import com.marcelo.barbershop.entity.Servico;
 import com.marcelo.barbershop.repository.ServicoRepository;
-
 import jakarta.persistence.EntityNotFoundException;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
