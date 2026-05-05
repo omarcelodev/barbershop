@@ -27,6 +27,7 @@ public class ServicoService {
         return servicoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Serviço não encontrado: " + id));
     }
 
+    @Transactional
     public Servico criar(Servico servico) {
         if (servicoRepository.existsByNome(servico.getNome())) {
             throw new IllegalArgumentException("Já existe um serviço com o nome: " + servico.getNome());
@@ -34,6 +35,7 @@ public class ServicoService {
         return servicoRepository.save(servico);
     }
 
+    @Transactional
     public Servico atualizar(Long id, Servico dados) {
         Servico existente = buscarPorId(id);
         existente.setNome(dados.getNome());
@@ -42,6 +44,7 @@ public class ServicoService {
         return servicoRepository.save(existente);
     }
 
+    @Transactional
     public void deletar(Long id) {
         Servico servico = buscarPorId(id);
         servicoRepository.delete(servico);
