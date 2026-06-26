@@ -46,7 +46,7 @@ public class AgendaService {
 
     @Transactional
     public Agenda atualizar(Long id, Agenda dados) {
-        Agenda existente = agendaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Aegnda não encontrada: " + id));
+        Agenda existente = agendaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Agenda não encontrada: " + id));
 
         existente.setHoraInicio(dados.getHoraInicio());
         existente.setHoraFim(dados.getHoraFim());
