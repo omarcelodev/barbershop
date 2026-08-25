@@ -234,14 +234,12 @@ spring.application.name=barbershop
 
 spring.datasource.url=jdbc:postgresql://localhost:5432/barbershop
 spring.datasource.username=postgres
-spring.datasource.password=123456
+spring.datasource.password=<your-database-password>
 
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
-
-The default datasource password is committed to the repository. Before deploying or sharing the project, replace it with an environment variable such as `${DB_PASSWORD}` and provide the value externally. Do not commit real credentials.
 
 ### Running the Application
 
