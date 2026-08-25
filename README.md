@@ -322,4 +322,6 @@ The project is not yet production-ready. Scalability, security, performance, and
 
 ## License
 
-No license file is currently present in the repository.
+This project is licensed under the [MIT License](LICENSE).
+
+© 2026 Marcelo Gomes
