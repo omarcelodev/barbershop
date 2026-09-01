@@ -2,7 +2,6 @@ package com.marcelo.barbershop.repository;
 
 import com.marcelo.barbershop.entity.Servico;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
@@ -11,7 +10,6 @@ import java.util.Optional;
  * Disponibiliza operações padrão de CRUD através do JpaRepository,
  * além de consultas derivadas pelo nome conforme convenções do Spring Data JPA.
  */
-@Repository
 public interface ServicoRepository extends JpaRepository<Servico, Long> {
      /**
      * Busca um serviço pelo nome.

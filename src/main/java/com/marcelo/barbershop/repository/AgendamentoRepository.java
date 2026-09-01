@@ -38,7 +38,7 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
      * @param status Status do agendamento (ex: AGENDADO, CANCELADO, CONCLUIDO).
      * @return Lista de agendamentos conforme o barbeiro e status informados.
      */
-    List<Agendamento> findAllByBarbeiroAndStatus(Long barbeiroId, Status status);
+    List<Agendamento> findAllByBarbeiroIdAndStatus(Long barbeiroId, Status status);
 
     /**
      * Busca agendamentos que conflitam com um intervalo de tempo específico.
